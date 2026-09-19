@@ -103,6 +103,15 @@
   .opt:hover{border-color:var(--leaf);background:var(--leaf-weak)}
   .opt:hover::before{opacity:1}
 
+  /* 合言葉ゲート */
+  .lockhint{font-weight:600;color:var(--muted);font-size:.74rem;margin-left:2px}
+  .gate{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);padding:20px;text-align:center}
+  .gate .lock{font-size:1.8rem}
+  .gate h2{font-size:1.02rem;margin:8px 0 4px}
+  .gate p{font-size:.86rem;color:var(--muted);margin:0 0 16px}
+  .gate input{width:100%;font:inherit;font-size:1rem;text-align:center;letter-spacing:.1em;padding:12px;border:1px solid var(--line);border-radius:12px;background:var(--paper);color:inherit}
+  .gate .err{color:var(--danger);font-size:.82rem;min-height:1.2em;margin:8px 0 0}
+
   /* result */
   .answers{margin:0 0 14px;padding:0;list-style:none;display:flex;flex-direction:column;gap:5px}
   .answers li{font-size:.82rem;color:var(--muted);display:flex;gap:7px}
@@ -177,6 +186,16 @@ const MENU = [
   {group:"権利・福祉", icon:"🔒", title:"身体拘束",     desc:"適正手続きの確認",     to:"rs_urgency"},
   {group:"権利・福祉", icon:"💬", title:"苦情解決",     desc:"苦情・ご意見の受付",   to:"comp_reporter"}
 ];
+
+/* =========================================================
+   合言葉ゲート（権利・福祉の項目に入る前の軽い仕切り）
+   ※ 静的HTMLのためソースを見れば分かります。部外者を確実に締め出す鍵ではなく、
+     関係者向けの「うっかり閲覧」防止です。事業所ごとに PASSPHRASE を変更してください。
+========================================================= */
+const PROTECTED_GROUP = "権利・福祉";
+const PASSPHRASE = "0000";           // ← 事業所ごとに変更してください
+let unlocked = (function(){ try{ return sessionStorage.getItem("rw_unlocked")==="1"; }catch(e){ return false; } })();
+let pendingFlow = null;
 
 /* =========================================================
    フロー定義（ボットの分岐・文言に準拠）
@@ -432,7 +451,9 @@ function showMenu(){
     +'<span class="nums"><a href="tel:119">119</a><a href="tel:110">110</a></span></div>';
   let cur="";
   MENU.forEach(function(m,i){
-    if(m.group!==cur){ if(cur) html+='</div>'; html+='<div class="section">'+m.group+'</div><div class="grid">'; cur=m.group; }
+    if(m.group!==cur){ if(cur) html+='</div>';
+      var hint=(m.group===PROTECTED_GROUP && !unlocked)?'<span class="lockhint">🔒 関係者向け</span>':'';
+      html+='<div class="section">'+m.group+hint+'</div><div class="grid">'; cur=m.group; }
     html+='<button class="tile" onclick="startFlow('+i+')">'
       +'<span class="ico">'+m.icon+'</span><span class="t">'+m.title+'</span><span class="d">'+m.desc+'</span></button>';
   });
@@ -442,9 +463,38 @@ function showMenu(){
 }
 
 function startFlow(i){
-  cat=MENU[i];
+  const m=MENU[i];
+  if(m.group===PROTECTED_GROUP && !unlocked){ pendingFlow=i; return renderGate(""); }
+  cat=m;
   stack=[{id:cat.to, ctx:{}}]; answers=[];
   renderNode(cat.to);
+}
+
+function renderGate(err){
+  view.innerHTML=
+    '<div class="flowbar"><button class="ghost" onclick="showMenu()">← メニュー</button></div>'
+    +'<div class="gate"><div class="lock">🔒</div>'
+    +'<h2>権利・福祉の項目</h2>'
+    +'<p>関係者向けの内容です。合言葉を入力してください。</p>'
+    +'<input id="pass" type="password" inputmode="text" autocomplete="off" '
+    +'placeholder="合言葉" onkeydown="if(event.key===\'Enter\')tryUnlock()">'
+    +'<p class="err">'+esc(err||"")+'</p>'
+    +'<div class="actions"><button class="btn primary" onclick="tryUnlock()">開く</button></div></div>';
+  const el=document.getElementById("pass"); if(el) el.focus();
+  window.scrollTo(0,0);
+}
+
+function tryUnlock(){
+  const el=document.getElementById("pass");
+  const val=el ? el.value : "";
+  if(val===PASSPHRASE){
+    unlocked=true;
+    try{ sessionStorage.setItem("rw_unlocked","1"); }catch(e){}
+    const i=pendingFlow; pendingFlow=null;
+    startFlow(i);
+  }else{
+    renderGate("合言葉が違います。もう一度お試しください。");
+  }
 }
 
 function choose(idx){
