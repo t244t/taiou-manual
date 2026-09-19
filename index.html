@@ -6,6 +6,7 @@
 <meta name="theme-color" content="#2f5d45">
 <title>対応マニュアル｜緊急・災害／権利・福祉</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%A7%AD%3C/text%3E%3C/svg%3E">
+<script>try{var _t=localStorage.getItem("theme");if(_t==="dark")document.documentElement.setAttribute("data-theme","dark");}catch(e){}</script>
 <style>
   :root{
     --paper:#f3f5f1; --card:#ffffff; --ink:#1e2a24; --muted:#5c6b62;
@@ -16,20 +17,13 @@
     --info:#38617d;   --info-bg:#e7eef3;
     --r:16px; --shadow:0 1px 2px rgba(30,42,36,.05),0 8px 24px rgba(30,42,36,.05);
   }
-  @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
-    --paper:#12160f; --card:#1a1f18; --ink:#e8ede7; --muted:#98a69c;
-    --line:#2a3128; --field:#8fbfa2; --leaf:#6cbb8b; --leaf-weak:#1c2a22;
-    --danger:#f18c7f; --danger-bg:#3a201d;
-    --warn:#e6b466;   --warn-bg:#38290f;
-    --ok:#74c99a;     --ok-bg:#16281f;
-    --info:#8db8d4;   --info-bg:#182a35;
-    --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px rgba(0,0,0,.28);
-  }}
+  /* 既定は明るいテーマに固定。暗色は右上トグル（data-theme="dark"）のときだけ適用 */
   :root[data-theme="dark"]{
     --paper:#12160f; --card:#1a1f18; --ink:#e8ede7; --muted:#98a69c; --line:#2a3128;
     --field:#8fbfa2; --leaf:#6cbb8b; --leaf-weak:#1c2a22;
     --danger:#f18c7f; --danger-bg:#3a201d; --warn:#e6b466; --warn-bg:#38290f;
     --ok:#74c99a; --ok-bg:#16281f; --info:#8db8d4; --info-bg:#182a35;
+    --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px rgba(0,0,0,.28);
   }
   *{box-sizing:border-box}
   html,body{margin:0;padding:0}
@@ -49,6 +43,8 @@
   }
   .brand .bname{font-weight:800;font-size:1.14rem;letter-spacing:.04em;line-height:1.2}
   .brand .bsub{font-size:.78rem;color:var(--muted);letter-spacing:.14em}
+  .themetoggle{margin-left:auto;width:38px;height:38px;flex:none;border-radius:11px;border:1px solid var(--line);background:var(--card);color:inherit;font-size:1.05rem;cursor:pointer;line-height:1}
+  .themetoggle:hover{border-color:var(--leaf)}
 
   /* call-first bar */
   .callbar{
@@ -145,6 +141,7 @@
       <div class="bname">対応マニュアル</div>
       <div class="bsub">緊急・災害／権利・福祉</div>
     </div>
+    <button class="themetoggle" id="themeBtn" onclick="toggleTheme()" aria-label="明るさを切り替え" title="明るさを切り替え">🌙</button>
   </header>
 
   <div id="view"></div>
@@ -556,6 +553,20 @@ function menuIndex(){ return MENU.indexOf(cat); }
 
 function esc(s){ return String(s).replace(/[&<>]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;"}[c];}); }
 
+/* 明/暗トグル（既定は明るい。設定は端末に保存） */
+function toggleTheme(){
+  const el=document.documentElement;
+  const now=el.getAttribute("data-theme")==="dark"?"light":"dark";
+  el.setAttribute("data-theme",now);
+  try{ localStorage.setItem("theme",now); }catch(e){}
+  updateThemeBtn();
+}
+function updateThemeBtn(){
+  const b=document.getElementById("themeBtn"); if(!b) return;
+  b.textContent=document.documentElement.getAttribute("data-theme")==="dark"?"☀️":"🌙";
+}
+
+updateThemeBtn();
 showMenu();
 </script>
 </body>
