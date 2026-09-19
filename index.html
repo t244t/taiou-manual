@@ -3,121 +3,152 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>緊急・福祉対応マニュアル</title>
+<meta name="theme-color" content="#2f5d45">
+<title>対応マニュアル｜緊急・災害／権利・福祉</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%A7%AD%3C/text%3E%3C/svg%3E">
 <style>
   :root{
-    --bg:#f5f6f8; --card:#ffffff; --text:#1c2330; --muted:#5b6473;
-    --line:#e3e6ec; --accent:#2f6df0; --accent-weak:#e8f0ff;
-    --danger:#c62828; --danger-bg:#fdecec;
-    --warn:#b26a00; --warn-bg:#fff5e6;
-    --ok:#1f7a45; --ok-bg:#e9f6ee;
-    --info:#2f6df0; --info-bg:#e8f0ff;
-    --radius:14px; --shadow:0 1px 3px rgba(20,30,50,.08),0 6px 18px rgba(20,30,50,.06);
+    --paper:#f3f5f1; --card:#ffffff; --ink:#1e2a24; --muted:#5c6b62;
+    --line:#e0e6e0; --field:#2f5d45; --leaf:#3c8c5f; --leaf-weak:#e7f1ea;
+    --danger:#bb3b2c; --danger-bg:#fbeae7;
+    --warn:#a5720f;   --warn-bg:#fbf0dd;
+    --ok:#2e7d52;     --ok-bg:#e7f3ec;
+    --info:#38617d;   --info-bg:#e7eef3;
+    --r:16px; --shadow:0 1px 2px rgba(30,42,36,.05),0 8px 24px rgba(30,42,36,.05);
   }
-  @media (prefers-color-scheme: dark){
-    :root:not([data-theme="light"]){
-      --bg:#12151b; --card:#1b1f27; --text:#e8ebf1; --muted:#9aa3b2;
-      --line:#2a2f3a; --accent:#5b8bf5; --accent-weak:#1e2a44;
-      --danger:#ff8080; --danger-bg:#3a1f1f;
-      --warn:#f0b866; --warn-bg:#3a2c14;
-      --ok:#6fd39a; --ok-bg:#173026;
-      --info:#8fb2ff; --info-bg:#1e2a44;
-      --shadow:0 1px 3px rgba(0,0,0,.4),0 6px 18px rgba(0,0,0,.3);
-    }
-  }
+  @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+    --paper:#12160f; --card:#1a1f18; --ink:#e8ede7; --muted:#98a69c;
+    --line:#2a3128; --field:#8fbfa2; --leaf:#6cbb8b; --leaf-weak:#1c2a22;
+    --danger:#f18c7f; --danger-bg:#3a201d;
+    --warn:#e6b466;   --warn-bg:#38290f;
+    --ok:#74c99a;     --ok-bg:#16281f;
+    --info:#8db8d4;   --info-bg:#182a35;
+    --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px rgba(0,0,0,.28);
+  }}
   :root[data-theme="dark"]{
-    --bg:#12151b; --card:#1b1f27; --text:#e8ebf1; --muted:#9aa3b2;
-    --line:#2a2f3a; --accent:#5b8bf5; --accent-weak:#1e2a44;
-    --danger:#ff8080; --danger-bg:#3a1f1f; --warn:#f0b866; --warn-bg:#3a2c14;
-    --ok:#6fd39a; --ok-bg:#173026; --info:#8fb2ff; --info-bg:#1e2a44;
+    --paper:#12160f; --card:#1a1f18; --ink:#e8ede7; --muted:#98a69c; --line:#2a3128;
+    --field:#8fbfa2; --leaf:#6cbb8b; --leaf-weak:#1c2a22;
+    --danger:#f18c7f; --danger-bg:#3a201d; --warn:#e6b466; --warn-bg:#38290f;
+    --ok:#74c99a; --ok-bg:#16281f; --info:#8db8d4; --info-bg:#182a35;
   }
   *{box-sizing:border-box}
   html,body{margin:0;padding:0}
   body{
-    background:var(--bg); color:var(--text);
-    font-family:-apple-system,BlinkMacSystemFont,"Hiragino Kaku Gothic ProN","Hiragino Sans","Noto Sans JP","Yu Gothic UI",Meiryo,sans-serif;
-    line-height:1.6; -webkit-text-size-adjust:100%;
+    background:var(--paper); color:var(--ink);
+    font-family:"Hiragino Kaku Gothic ProN","Hiragino Sans","Noto Sans JP","Yu Gothic UI",Meiryo,system-ui,sans-serif;
+    line-height:1.7; -webkit-text-size-adjust:100%; -webkit-font-smoothing:antialiased;
   }
-  .wrap{max-width:720px;margin:0 auto;padding:16px 16px 56px}
-  header.app{
+  a{color:var(--leaf)}
+  .wrap{max-width:640px;margin:0 auto;padding:0 15px 60px}
+
+  /* brand header */
+  .brand{display:flex;align-items:center;gap:11px;padding:18px 2px 14px}
+  .brand .mark{
+    width:38px;height:38px;flex:none;border-radius:11px;background:var(--field);
+    display:grid;place-items:center;font-size:1.2rem;
+  }
+  .brand .bname{font-weight:800;font-size:1.14rem;letter-spacing:.04em;line-height:1.2}
+  .brand .bsub{font-size:.78rem;color:var(--muted);letter-spacing:.14em}
+
+  /* call-first bar */
+  .callbar{
     display:flex;align-items:center;gap:10px;
-    padding:6px 2px 14px;
+    background:var(--danger-bg);border:1px solid color-mix(in srgb,var(--danger) 26%,transparent);
+    color:var(--danger);border-radius:12px;padding:11px 13px;margin-bottom:20px;font-size:.86rem;
   }
-  header.app h1{font-size:1.15rem;margin:0;font-weight:700;letter-spacing:.02em}
-  header.app .home{margin-left:auto}
-  .banner{
-    background:var(--danger-bg);color:var(--danger);
-    border:1px solid color-mix(in srgb,var(--danger) 30%,transparent);
-    border-radius:12px;padding:10px 12px;font-size:.86rem;margin-bottom:16px;
+  .callbar .lead{font-weight:600}
+  .callbar .nums{margin-left:auto;display:flex;gap:8px}
+  .callbar a{
+    color:#fff;background:var(--danger);text-decoration:none;font-weight:700;
+    border-radius:9px;padding:5px 12px;font-size:.92rem;letter-spacing:.03em;
   }
-  .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
-  @media(max-width:380px){.grid{grid-template-columns:1fr}}
+
+  /* section */
+  .section{display:flex;align-items:center;gap:8px;margin:6px 2px 10px;font-size:.82rem;font-weight:700;color:var(--muted)}
+  .section::before{content:"";width:4px;height:15px;border-radius:2px;background:var(--leaf)}
+  .section:not(:first-of-type){margin-top:22px}
+
+  /* tiles */
+  .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:9px}
+  @media(max-width:360px){.grid{grid-template-columns:1fr}}
   .tile{
-    background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
-    box-shadow:var(--shadow);padding:14px;text-align:left;cursor:pointer;
-    display:flex;flex-direction:column;gap:4px;color:inherit;transition:transform .05s,border-color .15s;
+    background:var(--card);border:1px solid var(--line);border-radius:var(--r);
+    padding:13px 13px 14px;text-align:left;cursor:pointer;color:inherit;
+    display:flex;flex-direction:column;gap:3px;transition:border-color .15s,background .15s;
   }
-  .tile:hover{border-color:var(--accent)}
-  .tile:active{transform:scale(.99)}
-  .tile .ico{font-size:1.5rem;line-height:1}
-  .tile .t{font-weight:700}
-  .tile .d{font-size:.8rem;color:var(--muted)}
-  .card{
-    background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
-    box-shadow:var(--shadow);padding:16px;margin-bottom:14px;
-  }
-  .qtitle{font-weight:700;font-size:1.02rem;margin:0 0 6px;display:flex;gap:8px;align-items:center}
-  .qtext{white-space:pre-wrap;margin:0 0 14px}
-  .options{display:flex;flex-direction:column;gap:8px}
+  .tile:hover{border-color:var(--leaf);background:var(--leaf-weak)}
+  .tile .ico{font-size:1.45rem;line-height:1;margin-bottom:2px}
+  .tile .t{font-weight:700;font-size:1rem}
+  .tile .d{font-size:.78rem;color:var(--muted);line-height:1.5}
+
+  /* flow header */
+  .flowbar{display:flex;align-items:center;justify-content:space-between;padding:16px 0 4px}
+  .ghost{background:none;border:none;color:var(--muted);font:inherit;font-size:.9rem;cursor:pointer;padding:6px 4px;border-radius:8px}
+  .ghost:hover{color:var(--ink)}
+  .cathead{display:flex;align-items:center;gap:9px;margin:2px 2px 14px}
+  .cathead .ci{font-size:1.3rem}
+  .cathead .ct{font-weight:800;font-size:1.06rem}
+  .cathead .step{margin-left:auto;font-size:.76rem;color:var(--muted);background:var(--leaf-weak);border-radius:20px;padding:3px 11px}
+
+  /* question */
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);padding:17px}
+  .qtext{white-space:pre-wrap;margin:0 0 15px;font-size:1.04rem;line-height:1.75}
+  .options{display:flex;flex-direction:column;gap:9px}
   .opt{
     width:100%;text-align:left;background:var(--card);color:inherit;
-    border:1px solid var(--line);border-radius:12px;padding:12px 14px;font-size:.98rem;
-    cursor:pointer;transition:background .12s,border-color .12s;
+    border:1px solid var(--line);border-radius:12px;padding:13px 15px;font:inherit;font-size:1rem;
+    cursor:pointer;transition:background .12s,border-color .12s;display:flex;align-items:center;gap:9px;
   }
-  .opt:hover{border-color:var(--accent);background:var(--accent-weak)}
-  .opt:active{transform:scale(.995)}
-  .result{white-space:pre-wrap;border-radius:12px;padding:14px;border:1px solid transparent}
-  .result.danger{background:var(--danger-bg);color:var(--danger);border-color:color-mix(in srgb,var(--danger) 30%,transparent)}
-  .result.warn{background:var(--warn-bg);color:var(--warn);border-color:color-mix(in srgb,var(--warn) 30%,transparent)}
-  .result.ok{background:var(--ok-bg);color:var(--ok);border-color:color-mix(in srgb,var(--ok) 30%,transparent)}
-  .result.info{background:var(--info-bg);color:var(--info);border-color:color-mix(in srgb,var(--info) 30%,transparent)}
-  .rhead{font-weight:700;margin:0 0 8px}
-  .answers{margin:0 0 14px;padding:0;list-style:none;display:flex;flex-direction:column;gap:4px}
-  .answers li{font-size:.82rem;color:var(--muted)}
-  .answers li b{color:var(--text);font-weight:600}
-  .nav{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
-  .btn{
-    border:1px solid var(--line);background:var(--card);color:inherit;border-radius:10px;
-    padding:9px 14px;font-size:.9rem;cursor:pointer;
-  }
-  .btn:hover{border-color:var(--accent)}
-  .btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
-  footer.app{color:var(--muted);font-size:.76rem;margin-top:22px;border-top:1px solid var(--line);padding-top:14px}
-  footer.app code{background:var(--accent-weak);padding:1px 5px;border-radius:5px;font-size:.9em}
+  .opt::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--leaf);flex:none;opacity:.55}
+  .opt:hover{border-color:var(--leaf);background:var(--leaf-weak)}
+  .opt:hover::before{opacity:1}
+
+  /* result */
+  .answers{margin:0 0 14px;padding:0;list-style:none;display:flex;flex-direction:column;gap:5px}
+  .answers li{font-size:.82rem;color:var(--muted);display:flex;gap:7px}
+  .answers li b{color:var(--ink);font-weight:600;flex:none}
+  .result{white-space:pre-wrap;border-radius:var(--r);padding:16px;border:1px solid transparent;font-size:1.02rem;line-height:1.8}
+  .result .rlead{display:block;font-weight:800;font-size:.8rem;letter-spacing:.06em;margin-bottom:8px;opacity:.85}
+  .result.danger{background:var(--danger-bg);color:var(--danger);border-color:color-mix(in srgb,var(--danger) 28%,transparent)}
+  .result.warn{background:var(--warn-bg);color:var(--warn);border-color:color-mix(in srgb,var(--warn) 28%,transparent)}
+  .result.ok{background:var(--ok-bg);color:var(--ok);border-color:color-mix(in srgb,var(--ok) 26%,transparent)}
+  .result.info{background:var(--info-bg);color:var(--info);border-color:color-mix(in srgb,var(--info) 26%,transparent)}
+  .result a.tel{color:inherit;font-weight:800;text-decoration:underline;text-underline-offset:2px}
+
+  .actions{display:flex;gap:9px;margin-top:16px}
+  .btn{flex:1;border:1px solid var(--line);background:var(--card);color:inherit;border-radius:12px;padding:12px;font:inherit;font-size:.94rem;cursor:pointer;text-align:center}
+  .btn:hover{border-color:var(--leaf)}
+  .btn.primary{background:var(--field);border-color:var(--field);color:#fff}
+
+  footer.app{color:var(--muted);font-size:.75rem;margin-top:26px;border-top:1px solid var(--line);padding-top:14px;line-height:1.7}
+  footer.app code{background:var(--leaf-weak);padding:1px 5px;border-radius:5px}
+
+  :focus-visible{outline:2px solid var(--leaf);outline-offset:2px}
+  @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 </head>
 <body>
 <div class="wrap">
-  <header class="app">
-    <span style="font-size:1.4rem">🧭</span>
-    <h1>緊急・福祉対応マニュアル</h1>
-    <button class="btn home" id="homeBtn" style="display:none" onclick="showMenu()">メニュー</button>
+  <header class="brand">
+    <span class="mark">🧭</span>
+    <div>
+      <!-- 事業所名を入れる場合は bname を書き換えてください（例：〇〇事業所） -->
+      <div class="bname">対応マニュアル</div>
+      <div class="bsub">緊急・災害／権利・福祉</div>
+    </div>
   </header>
-
-  <div class="banner">⚠️ 生命に関わる緊急時は、まず <b>119番／110番</b>。これは判断と対応の手引きです。</div>
 
   <div id="view"></div>
 
   <footer class="app">
-    ※ 各窓口・連絡先は仮の表記です。実際の担当者・番号に置き換えてご利用ください（コード内 <code>CONTACTS</code>）。<br>
-    このページは静的HTMLです。GitHub Pages 等にそのまま設置できます。
+    生命に関わる緊急時は、まず電話（119／110）で通報してください。この手引きは対応の目安です。<br>
+    各窓口・連絡先は仮の表記です。実際の担当者・番号に置き換えてご利用ください（コード内 <code>CONTACTS</code>）。
   </footer>
 </div>
 
 <script>
 /* =========================================================
    連絡先（テンプレート。実際の値に編集してください）
-   ボット側 CONTACTS と揃えると管理が楽になります。
 ========================================================= */
 const CONTACTS = {
   人権110番:       "みんなの人権110番（法務省）0570-003-110",
@@ -132,25 +163,24 @@ const CONTACTS = {
 };
 
 /* =========================================================
-   メニュー（10項目）
+   メニュー（2グループ・10項目）
 ========================================================= */
 const MENU = [
-  {icon:"🤕", title:"ケガ・病人",   desc:"ケガや病人の応急対応",       to:"injury_start"},
-  {icon:"🌞", title:"熱中症",       desc:"熱中症が疑われるとき",       to:"heat_env"},
-  {icon:"🔥", title:"火災",         desc:"火災発生時の対応",           to:"fire_scale"},
-  {icon:"🌐", title:"地震",         desc:"地震発生時の対応",           to:"quake_damage"},
-  {icon:"🤒", title:"体調報告",     desc:"発熱・体調不良の報告",       to:"health_temp"},
-  {icon:"🛡", title:"ハラスメント", desc:"セクハラ・パワハラ等の相談", to:"har_type"},
-  {icon:"🧑‍💼", title:"カスハラ",   desc:"顧客からの迷惑・威圧行為",   to:"cust_screen"},
-  {icon:"🕊", title:"虐待",         desc:"虐待の発見・疑いの通報",     to:"abuse_target"},
-  {icon:"🔒", title:"身体拘束",     desc:"適正手続きの確認",           to:"rs_urgency"},
-  {icon:"💬", title:"苦情解決",     desc:"苦情・ご意見の受付",         to:"comp_reporter"}
+  {group:"緊急・災害", icon:"🤕", title:"ケガ・病人",   desc:"応急対応の手順",       to:"injury_start"},
+  {group:"緊急・災害", icon:"🌞", title:"熱中症",       desc:"疑われるときの対応",   to:"heat_env"},
+  {group:"緊急・災害", icon:"🔥", title:"火災",         desc:"発生時の対応",         to:"fire_scale"},
+  {group:"緊急・災害", icon:"🌐", title:"地震",         desc:"発生時の対応",         to:"quake_damage"},
+  {group:"緊急・災害", icon:"🤒", title:"体調報告",     desc:"発熱・体調不良の報告", to:"health_temp"},
+  {group:"権利・福祉", icon:"🛡", title:"ハラスメント", desc:"セクハラ・パワハラ等", to:"har_type"},
+  {group:"権利・福祉", icon:"🧑‍💼", title:"カスハラ",   desc:"顧客の迷惑・威圧行為", to:"cust_screen"},
+  {group:"権利・福祉", icon:"🕊", title:"虐待",         desc:"発見・疑いの通報",     to:"abuse_target"},
+  {group:"権利・福祉", icon:"🔒", title:"身体拘束",     desc:"適正手続きの確認",     to:"rs_urgency"},
+  {group:"権利・福祉", icon:"💬", title:"苦情解決",     desc:"苦情・ご意見の受付",   to:"comp_reporter"}
 ];
 
 /* =========================================================
    フロー定義（ボットの分岐・文言に準拠）
-   question ノード：{q, options:[{label,to,set}]}
-   result   ノード：{result:true, text, tone}
+   question：{q, options:[{label,to,set}]}   result：{result:true, text, tone}
    {{key}} は CTX または CONTACTS で置換
 ========================================================= */
 const NODES = {
@@ -363,51 +393,65 @@ const BUILDERS = {
   }
 };
 
+/* result トーン → 見出しラベル */
+const TONE_LABEL = {danger:"すぐ対応", warn:"注意して対応", ok:"対応の目安", info:"案内"};
+
 /* =========================================================
    エンジン
 ========================================================= */
-let stack=[];       // [{id, ctx}]
-let answers=[];     // [{q,a}]
+let stack=[];        // [{id, ctx}]
+let answers=[];      // [{q,a}]
+let cat=null;        // 実行中カテゴリ {icon,title,to}
 const view=document.getElementById("view");
-const homeBtn=document.getElementById("homeBtn");
 
 function tmpl(t){
   if(!t) return t;
   return t.replace(/\{\{(.+?)\}\}/g,(m,k)=>{
-    if(currentCtx()[k]!=null) return tmpl(currentCtx()[k]); // ctx値もテンプレート可
+    if(currentCtx()[k]!=null) return tmpl(currentCtx()[k]);
     if(CONTACTS[k]!=null) return CONTACTS[k];
     return "";
   });
 }
 function currentCtx(){ return stack.length? stack[stack.length-1].ctx : {}; }
 
+/* 電話番号をタップ発信リンクに（名称内の番号は誤発信防止で除外） */
+function linkifyPhones(html){
+  html=html.replace(/0570-003-110/g, tel("0570003110","0570-003-110"));
+  html=html.replace(/人権110番/g, "人権11\u00010番");        // 名称内の 110 を保護
+  html=html.replace(/119番/g, tel("119","119番"));
+  html=html.replace(/110番/g, tel("110","110番"));
+  html=html.replace(/#9110/g, tel("9110","#9110"));
+  html=html.replace(/189（/g, tel("189","189")+"（");
+  return html.replace(/\u0001/g,"");                         // 保護解除
+}
+function tel(num,label){ return '<a class="tel" href="tel:'+num+'">'+label+'</a>'; }
+
 function showMenu(){
-  stack=[]; answers=[];
-  homeBtn.style.display="none";
-  let html='<div class="grid">';
-  MENU.forEach(function(m){
-    html+='<button class="tile" onclick="startFlow(\''+m.to+'\')">'
-      +'<span class="ico">'+m.icon+'</span>'
-      +'<span class="t">'+m.title+'</span>'
-      +'<span class="d">'+m.desc+'</span></button>';
+  stack=[]; answers=[]; cat=null;
+  let html='<div class="callbar"><span class="lead">緊急時はまず通報</span>'
+    +'<span class="nums"><a href="tel:119">119</a><a href="tel:110">110</a></span></div>';
+  let cur="";
+  MENU.forEach(function(m,i){
+    if(m.group!==cur){ if(cur) html+='</div>'; html+='<div class="section">'+m.group+'</div><div class="grid">'; cur=m.group; }
+    html+='<button class="tile" onclick="startFlow('+i+')">'
+      +'<span class="ico">'+m.icon+'</span><span class="t">'+m.title+'</span><span class="d">'+m.desc+'</span></button>';
   });
   html+='</div>';
   view.innerHTML=html;
   window.scrollTo(0,0);
 }
 
-function startFlow(id){
-  stack=[{id, ctx:{}}]; answers=[];
-  homeBtn.style.display="inline-block";
-  renderNode(id);
+function startFlow(i){
+  cat=MENU[i];
+  stack=[{id:cat.to, ctx:{}}]; answers=[];
+  renderNode(cat.to);
 }
 
 function choose(idx){
   const node=NODES[stack[stack.length-1].id];
   const opt=node.options[idx];
-  const ctx=Object.assign({}, currentCtx(), opt.set||{});
   answers.push({q:shorten(node.q), a:opt.label});
-  stack.push({id:opt.to, ctx});
+  stack.push({id:opt.to, ctx:Object.assign({}, currentCtx(), opt.set||{})});
   renderNode(opt.to);
 }
 
@@ -417,46 +461,48 @@ function back(){
   renderNode(stack[stack.length-1].id);
 }
 
-function shorten(q){ return (q.split("\n").pop()||q).replace(/^[【\s]*/,"").slice(0,24); }
+function shorten(q){ return (q.split("\n").pop()||q).replace(/^[【\s]*/,"").slice(0,22); }
+
+function flowbar(){
+  return '<div class="flowbar"><button class="ghost" onclick="back()">← 戻る</button>'
+    +'<button class="ghost" onclick="showMenu()">メニュー</button></div>';
+}
+function cathead(right){
+  return '<div class="cathead"><span class="ci">'+cat.icon+'</span><span class="ct">'+cat.title+'</span>'
+    +'<span class="step">'+right+'</span></div>';
+}
 
 function renderNode(id){
   let node=NODES[id];
   if(node.build){ const r=BUILDERS[node.build](currentCtx()); node={result:true,text:r.text,tone:r.tone}; }
-  if(node.result){ renderResult(node); } else { renderQuestion(node); }
+  node.result ? renderResult(node) : renderQuestion(node);
   window.scrollTo(0,0);
 }
 
 function renderQuestion(node){
-  let html='<div class="card">';
-  html+='<div class="qtext">'+esc(tmpl(node.q))+'</div>';
-  html+='<div class="options">';
-  node.options.forEach(function(o,i){
-    html+='<button class="opt" onclick="choose('+i+')">'+esc(o.label)+'</button>';
-  });
+  let html=flowbar()+cathead("質問 "+(answers.length+1));
+  html+='<div class="card"><div class="qtext">'+esc(tmpl(node.q))+'</div><div class="options">';
+  node.options.forEach(function(o,i){ html+='<button class="opt" onclick="choose('+i+')">'+esc(o.label)+'</button>'; });
   html+='</div></div>';
-  html+=navBar();
   view.innerHTML=html;
 }
 
 function renderResult(node){
-  let html='';
+  let html=flowbar()+cathead("対応の目安");
   if(answers.length){
     html+='<ul class="answers">';
-    answers.forEach(function(a){ html+='<li><b>'+esc(a.q)+'</b>：'+esc(a.a)+'</li>'; });
+    answers.forEach(function(a){ html+='<li><b>'+esc(a.q)+'</b>'+esc(a.a)+'</li>'; });
     html+='</ul>';
   }
-  html+='<div class="result '+(node.tone||"info")+'">'+esc(tmpl(node.text))+'</div>';
-  html+=navBar(true);
+  const tone=node.tone||"info";
+  html+='<div class="result '+tone+'"><span class="rlead">'+(TONE_LABEL[tone]||"")+'</span>'
+    +linkifyPhones(esc(tmpl(node.text)))+'</div>';
+  html+='<div class="actions"><button class="btn" onclick="startFlow(menuIndex())">もう一度</button>'
+    +'<button class="btn primary" onclick="showMenu()">メニューへ</button></div>';
   view.innerHTML=html;
 }
 
-function navBar(isResult){
-  let html='<div class="nav">';
-  html+='<button class="btn" onclick="back()">← ひとつ戻る</button>';
-  html+='<button class="btn'+(isResult?" primary":"")+'" onclick="showMenu()">最初に戻る</button>';
-  html+='</div>';
-  return html;
-}
+function menuIndex(){ return MENU.indexOf(cat); }
 
 function esc(s){ return String(s).replace(/[&<>]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;"}[c];}); }
 
