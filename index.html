@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>緊急・福祉対応マニュアル</title>
+<style>
+  :root{
+    --bg:#f5f6f8; --card:#ffffff; --text:#1c2330; --muted:#5b6473;
+    --line:#e3e6ec; --accent:#2f6df0; --accent-weak:#e8f0ff;
+    --danger:#c62828; --danger-bg:#fdecec;
+    --warn:#b26a00; --warn-bg:#fff5e6;
+    --ok:#1f7a45; --ok-bg:#e9f6ee;
+    --info:#2f6df0; --info-bg:#e8f0ff;
+    --radius:14px; --shadow:0 1px 3px rgba(20,30,50,.08),0 6px 18px rgba(20,30,50,.06);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#12151b; --card:#1b1f27; --text:#e8ebf1; --muted:#9aa3b2;
+      --line:#2a2f3a; --accent:#5b8bf5; --accent-weak:#1e2a44;
+      --danger:#ff8080; --danger-bg:#3a1f1f;
+      --warn:#f0b866; --warn-bg:#3a2c14;
+      --ok:#6fd39a; --ok-bg:#173026;
+      --info:#8fb2ff; --info-bg:#1e2a44;
+      --shadow:0 1px 3px rgba(0,0,0,.4),0 6px 18px rgba(0,0,0,.3);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#12151b; --card:#1b1f27; --text:#e8ebf1; --muted:#9aa3b2;
+    --line:#2a2f3a; --accent:#5b8bf5; --accent-weak:#1e2a44;
+    --danger:#ff8080; --danger-bg:#3a1f1f; --warn:#f0b866; --warn-bg:#3a2c14;
+    --ok:#6fd39a; --ok-bg:#173026; --info:#8fb2ff; --info-bg:#1e2a44;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    background:var(--bg); color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"Hiragino Kaku Gothic ProN","Hiragino Sans","Noto Sans JP","Yu Gothic UI",Meiryo,sans-serif;
+    line-height:1.6; -webkit-text-size-adjust:100%;
+  }
+  .wrap{max-width:720px;margin:0 auto;padding:16px 16px 56px}
+  header.app{
+    display:flex;align-items:center;gap:10px;
+    padding:6px 2px 14px;
+  }
+  header.app h1{font-size:1.15rem;margin:0;font-weight:700;letter-spacing:.02em}
+  header.app .home{margin-left:auto}
+  .banner{
+    background:var(--danger-bg);color:var(--danger);
+    border:1px solid color-mix(in srgb,var(--danger) 30%,transparent);
+    border-radius:12px;padding:10px 12px;font-size:.86rem;margin-bottom:16px;
+  }
+  .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+  @media(max-width:380px){.grid{grid-template-columns:1fr}}
+  .tile{
+    background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+    box-shadow:var(--shadow);padding:14px;text-align:left;cursor:pointer;
+    display:flex;flex-direction:column;gap:4px;color:inherit;transition:transform .05s,border-color .15s;
+  }
+  .tile:hover{border-color:var(--accent)}
+  .tile:active{transform:scale(.99)}
+  .tile .ico{font-size:1.5rem;line-height:1}
+  .tile .t{font-weight:700}
+  .tile .d{font-size:.8rem;color:var(--muted)}
+  .card{
+    background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+    box-shadow:var(--shadow);padding:16px;margin-bottom:14px;
+  }
+  .qtitle{font-weight:700;font-size:1.02rem;margin:0 0 6px;display:flex;gap:8px;align-items:center}
+  .qtext{white-space:pre-wrap;margin:0 0 14px}
+  .options{display:flex;flex-direction:column;gap:8px}
+  .opt{
+    width:100%;text-align:left;background:var(--card);color:inherit;
+    border:1px solid var(--line);border-radius:12px;padding:12px 14px;font-size:.98rem;
+    cursor:pointer;transition:background .12s,border-color .12s;
+  }
+  .opt:hover{border-color:var(--accent);background:var(--accent-weak)}
+  .opt:active{transform:scale(.995)}
+  .result{white-space:pre-wrap;border-radius:12px;padding:14px;border:1px solid transparent}
+  .result.danger{background:var(--danger-bg);color:var(--danger);border-color:color-mix(in srgb,var(--danger) 30%,transparent)}
+  .result.warn{background:var(--warn-bg);color:var(--warn);border-color:color-mix(in srgb,var(--warn) 30%,transparent)}
+  .result.ok{background:var(--ok-bg);color:var(--ok);border-color:color-mix(in srgb,var(--ok) 30%,transparent)}
+  .result.info{background:var(--info-bg);color:var(--info);border-color:color-mix(in srgb,var(--info) 30%,transparent)}
+  .rhead{font-weight:700;margin:0 0 8px}
+  .answers{margin:0 0 14px;padding:0;list-style:none;display:flex;flex-direction:column;gap:4px}
+  .answers li{font-size:.82rem;color:var(--muted)}
+  .answers li b{color:var(--text);font-weight:600}
+  .nav{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
+  .btn{
+    border:1px solid var(--line);background:var(--card);color:inherit;border-radius:10px;
+    padding:9px 14px;font-size:.9rem;cursor:pointer;
+  }
+  .btn:hover{border-color:var(--accent)}
+  .btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+  footer.app{color:var(--muted);font-size:.76rem;margin-top:22px;border-top:1px solid var(--line);padding-top:14px}
+  footer.app code{background:var(--accent-weak);padding:1px 5px;border-radius:5px;font-size:.9em}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="app">
+    <span style="font-size:1.4rem">🧭</span>
+    <h1>緊急・福祉対応マニュアル</h1>
+    <button class="btn home" id="homeBtn" style="display:none" onclick="showMenu()">メニュー</button>
+  </header>
+
+  <div class="banner">⚠️ 生命に関わる緊急時は、まず <b>119番／110番</b>。これは判断と対応の手引きです。</div>
+
+  <div id="view"></div>
+
+  <footer class="app">
+    ※ 各窓口・連絡先は仮の表記です。実際の担当者・番号に置き換えてご利用ください（コード内 <code>CONTACTS</code>）。<br>
+    このページは静的HTMLです。GitHub Pages 等にそのまま設置できます。
+  </footer>
+</div>
+
+<script>
+/* =========================================================
+   連絡先（テンプレート。実際の値に編集してください）
+   ボット側 CONTACTS と揃えると管理が楽になります。
+========================================================= */
+const CONTACTS = {
+  人権110番:       "みんなの人権110番（法務省）0570-003-110",
+  総合労働相談:    "総合労働相談コーナー（各都道府県労働局・無料・秘密厳守）",
+  警察:            "緊急は110／緊急でない相談は #9110",
+  児童相談所:      "児童相談所虐待対応ダイヤル 189（いちはやく）",
+  虐待防止センター:"市町村の障害者虐待防止センター（連絡先を設定してください）",
+  苦情受付担当:    "苦情受付担当者（設定してください）",
+  苦情解決責任者:  "苦情解決責任者（設定してください）",
+  第三者委員:      "苦情解決の第三者委員（設定してください）",
+  運営適正化委員会:"都道府県社協 運営適正化委員会（設定してください）"
+};
+
+/* =========================================================
+   メニュー（10項目）
+========================================================= */
+const MENU = [
+  {icon:"🤕", title:"ケガ・病人",   desc:"ケガや病人の応急対応",       to:"injury_start"},
+  {icon:"🌞", title:"熱中症",       desc:"熱中症が疑われるとき",       to:"heat_env"},
+  {icon:"🔥", title:"火災",         desc:"火災発生時の対応",           to:"fire_scale"},
+  {icon:"🌐", title:"地震",         desc:"地震発生時の対応",           to:"quake_damage"},
+  {icon:"🤒", title:"体調報告",     desc:"発熱・体調不良の報告",       to:"health_temp"},
+  {icon:"🛡", title:"ハラスメント", desc:"セクハラ・パワハラ等の相談", to:"har_type"},
+  {icon:"🧑‍💼", title:"カスハラ",   desc:"顧客からの迷惑・威圧行為",   to:"cust_screen"},
+  {icon:"🕊", title:"虐待",         desc:"虐待の発見・疑いの通報",     to:"abuse_target"},
+  {icon:"🔒", title:"身体拘束",     desc:"適正手続きの確認",           to:"rs_urgency"},
+  {icon:"💬", title:"苦情解決",     desc:"苦情・ご意見の受付",         to:"comp_reporter"}
+];
+
+/* =========================================================
+   フロー定義（ボットの分岐・文言に準拠）
+   question ノード：{q, options:[{label,to,set}]}
+   result   ノード：{result:true, text, tone}
+   {{key}} は CTX または CONTACTS で置換
+========================================================= */
+const NODES = {
+  /* ---- ケガ・病人 ---- */
+  injury_start:{q:"🩸 出血はありますか？程度も教えてください。",options:[
+    {label:"なし",to:"injury_consc"},{label:"少量",to:"injury_consc"},{label:"大量",to:"injury_consc_heavy"}]},
+  injury_consc:{q:"⚠️ 意識の状態を教えてください。",options:[
+    {label:"はっきりしている",to:"injury_part"},{label:"もうろう",to:"injury_mouro"},{label:"反応なし",to:"injury_none"}]},
+  injury_consc_heavy:{q:"🔴 大量出血です。清潔な布で強く圧迫止血し、可能なら患部を心臓より高く保ってください。\n\n⚠️ 意識の状態を教えてください。",options:[
+    {label:"はっきりしている",to:"injury_part"},{label:"もうろう",to:"injury_mouro"},{label:"反応なし",to:"injury_none"}]},
+  injury_none:{result:true,tone:"danger",text:"🚑 直ちに119番通報してください。呼吸を確認し、なければ胸骨圧迫を。周囲に応援を求めてください。"},
+  injury_mouro:{result:true,tone:"danger",text:"⚠️ 意識がもうろうとしています。危険なサインです。横向きに寝かせ、直ちに119番通報を検討してください。"},
+  injury_part:{q:"🩻 主にどこを負傷しましたか？",options:[
+    {label:"頭・首",to:"injury_sym_head"},{label:"胸・腹・背",to:"injury_sym_chest"},{label:"手足",to:"injury_sym"},{label:"その他",to:"injury_sym"}]},
+  injury_sym_head:{q:"🧠 頭部・頚部は不用意に動かさないでください。しびれ・嘔吐・意識変化があれば救急要請を。\n\n⚠️ 具体的な状態を選んでください。",options:injuryStates()},
+  injury_sym_chest:{q:"🫁 呼吸苦や強い痛みがあれば無理に動かさず救急要請を。\n\n⚠️ 具体的な状態を選んでください。",options:injuryStates()},
+  injury_sym:{q:"⚠️ 具体的な状態を選んでください。",options:injuryStates()},
+  injury_i_ko:{q:"🩸 圧迫止血し、👁️ 経過観察してください。\n\n👁️ その後の経過を教えてください。",options:injuryObs()},
+  injury_i_daboku:{q:"❄️ 冷却し、👁️ 経過を見てください。腫れが強い場合は受診を。\n\n👁️ その後の経過を教えてください。",options:injuryObs()},
+  injury_i_taicho:{q:"🛌 安静にし、改善がなければ🏥 医療機関へ。\n\n👁️ その後の経過を教えてください。",options:injuryObs()},
+  injury_i_yakedo:{q:"🚿 すぐ流水で15分以上冷やしてください。広範囲・水ぶくれは受診を。\n\n👁️ その後の経過を教えてください。",options:injuryObs()},
+  injury_i_kossetsu:{q:"🏥 動かさず固定し、医療機関へ。強い変形・出血は救急要請を。\n\n👁️ その後の経過を教えてください。",options:injuryObs()},
+  injury_i_oto:{q:"💧 少量ずつ水分補給し、脱水・血便があれば受診を。\n\n👁️ その後の経過を教えてください。",options:injuryObs()},
+  injury_i_atama:{q:"✅ 意識・嘔吐・言動を観察。異常があれば🏥 受診してください。\n\n👁️ その後の経過を教えてください。",options:injuryObs()},
+  injury_r_kaizen:{result:true,tone:"ok",text:"✅ 改善が見られます。引き続き無理せず様子を見てください。"},
+  injury_r_henka:{result:true,tone:"warn",text:"⌛ 観察を継続し、変化があれば医療機関・家族へ連絡を。"},
+  injury_r_akka:{result:true,tone:"danger",text:"⚠️ 悪化しています。📞 119番通報を検討してください。"},
+
+  /* ---- 熱中症 ---- */
+  heat_env:{q:"🌡 まず涼しい場所へ移動してください。どこで発症しましたか？",options:[
+    {label:"屋外（直射日光）",to:"heat_symptom"},{label:"屋内",to:"heat_symptom"}]},
+  heat_symptom:{q:"⚠️ 症状はどれに近いですか？",options:[
+    {label:"めまい・立ちくらみ",to:"heat_consc"},{label:"頭痛・吐き気・大量発汗",to:"heat_consc"},{label:"けいれん・反応薄い",to:"heat_consc_sev"}]},
+  heat_consc:{q:"🚿 体を冷やし、衣服を緩めてください。\n\n🧠 意識・呼びかけへの反応はどうですか？",options:[
+    {label:"はっきり反応する",to:"heat_hyd"},{label:"反応が鈍い/ない",to:"heat_r_emg"}]},
+  heat_consc_sev:{q:"🚿 首・脇・脚の付け根を冷やしながら確認してください。\n\n🧠 意識・呼びかけへの反応はどうですか？",options:[
+    {label:"はっきり反応する",to:"heat_hyd_sev"},{label:"反応が鈍い/ない",to:"heat_r_emg"}]},
+  heat_hyd:{q:"🧴 自分で水分・塩分を摂取できますか？",options:[
+    {label:"摂取できる",to:"heat_r_ok"},{label:"摂取できない",to:"heat_r_trans"}]},
+  heat_hyd_sev:{q:"🧴 自分で水分・塩分を摂取できますか？",options:[
+    {label:"摂取できる",to:"heat_r_ok_sev"},{label:"摂取できない",to:"heat_r_trans"}]},
+  heat_r_emg:{result:true,tone:"danger",text:"🚑 直ちに119番通報してください。冷却を続けながら救急を待ちます。自力での水分摂取はさせないでください。"},
+  heat_r_trans:{result:true,tone:"danger",text:"🚑 自力で水分が摂れない場合は搬送が必要です。医療機関へ連れて行くか救急要請してください。"},
+  heat_r_ok:{result:true,tone:"ok",text:"💧 涼所で水分・塩分を補給し、30分ほど様子を見てください。改善しなければ受診を。"},
+  heat_r_ok_sev:{result:true,tone:"warn",text:"💧 涼所で水分・塩分を補給し、30分ほど様子を見てください。\n⚠️ 重度症状がみられました。改善しなければ早めに受診してください。"},
+
+  /* ---- 火災 ---- */
+  fire_scale:{q:"🔥 火災の規模を教えてください。",options:[
+    {label:"小（初期）",to:"fire_smoke"},{label:"中",to:"fire_smoke"},{label:"大（延焼）",to:"fire_big"}]},
+  fire_smoke:{q:"💨 煙の状況は？",options:[
+    {label:"少ない",to:"fire_source"},{label:"充満している",to:"fire_big"}]},
+  fire_big:{q:"🚨 延焼・煙充満の危険があります。消火は試みず、姿勢を低くして直ちに避難してください。\n\n📞 119番通報の状況は？",options:[
+    {label:"済み",to:"fire_evac"},{label:"これから",to:"fire_evac_now"}]},
+  fire_source:{q:"🔎 火元は何ですか？",options:[
+    {label:"電気系統",to:"fire_ext_denki"},{label:"油",to:"fire_ext_abura"},{label:"その他",to:"fire_ext"}]},
+  fire_ext:{q:"🧯 消火器は使えますか？",options:[
+    {label:"使える",to:"fire_call"},{label:"ない",to:"fire_call"},{label:"届かない/危険",to:"fire_call"}]},
+  fire_ext_denki:{q:"⚠️ 感電に注意。可能ならブレーカーを落としてください。\n\n🧯 消火器は使えますか？",options:[
+    {label:"使える",to:"fire_call"},{label:"ない",to:"fire_call"},{label:"届かない/危険",to:"fire_call"}]},
+  fire_ext_abura:{q:"⚠️ 油火災に水は厳禁です。消火器か鍋のフタ等で覆って消火を。\n\n🧯 消火器は使えますか？",options:[
+    {label:"使える",to:"fire_call"},{label:"ない",to:"fire_call"},{label:"届かない/危険",to:"fire_call"}]},
+  fire_call:{q:"📞 119番通報の状況は？",options:[
+    {label:"済み",to:"fire_evac"},{label:"これから",to:"fire_evac_now"}]},
+  fire_evac:{q:"🚪 避難は完了しましたか？",options:[
+    {label:"完了",to:"fire_r_done"},{label:"避難中",to:"fire_r_evac"}]},
+  fire_evac_now:{q:"📞 すぐに安全を確保して119番通報してください。\n\n🚪 避難は完了しましたか？",options:[
+    {label:"完了",to:"fire_r_done"},{label:"避難中",to:"fire_r_evac"}]},
+  fire_r_done:{result:true,tone:"ok",text:"✅ 全員の安否を確認し、安全な場所で待機してください。戻らないでください。"},
+  fire_r_evac:{result:true,tone:"warn",text:"🏃 煙を吸わないよう低い姿勢で速やかに避難を完了してください。"},
+
+  /* ---- 地震 ---- */
+  quake_damage:{q:"🌍 揺れが収まったら周囲の被害程度を教えてください。",options:[
+    {label:"軽い",to:"quake_human"},{label:"重い",to:"quake_human"}]},
+  quake_human:{q:"🚨 ケガ人など人的被害はありますか？",options:[
+    {label:"あり",to:"quake_fire_inj"},{label:"なし",to:"quake_fire"}]},
+  quake_fire:{q:"🔥 火の元（ガス・電気）の始末はできましたか？",options:[
+    {label:"消火/遮断した",to:"quake_route"},{label:"できていない",to:"quake_route_ng"}]},
+  quake_fire_inj:{q:"🩹 ケガ人の応急手当と119番を検討してください。\n\n🔥 火の元（ガス・電気）の始末はできましたか？",options:[
+    {label:"消火/遮断した",to:"quake_route"},{label:"できていない",to:"quake_route_ng"}]},
+  quake_route:{q:"🚧 避難経路に危険（倒壊物・ガス漏れ等）はありますか？",options:[
+    {label:"危険あり",to:"quake_shelter"},{label:"問題なし",to:"quake_shelter"}]},
+  quake_route_ng:{q:"⚠️ 可能ならガス栓・ブレーカーを落としてください。危険なら無理せず避難を優先。\n\n🚧 避難経路に危険はありますか？",options:[
+    {label:"危険あり",to:"quake_shelter"},{label:"問題なし",to:"quake_shelter"}]},
+  quake_shelter:{q:"🏢 避難所に到着しましたか？",options:[
+    {label:"到着した",to:"quake_rescue"},{label:"避難中",to:"quake_rescue"}]},
+  quake_rescue:{q:"🆘 救援は必要ですか？",options:[
+    {label:"要請する",to:"quake_safety"},{label:"不要",to:"quake_safety"}]},
+  quake_safety:{q:"🧑‍🤝‍🧑 一緒にいる人・家族の安否は確認できていますか？",options:[
+    {label:"全員確認済み",to:"quake_r"},{label:"未確認あり",to:"quake_r"}]},
+  quake_r:{result:true,tone:"info",text:"🧯 安全を最優先に、余震に備えて行動を継続してください。"},
+
+  /* ---- 体調報告 ---- */
+  health_temp:{q:"🌡 今日の体温はどれに近いですか？",options:[
+    {label:"36.5℃",to:"health_cond"},{label:"37.0℃",to:"health_cond"},{label:"37.5℃以上",to:"health_sym_f"}]},
+  health_cond:{q:"😷 咳・のどの痛み・倦怠感などの症状はありますか？",options:[
+    {label:"問題なし",to:"health_r_ok"},{label:"症状あり",to:"health_sym"}]},
+  health_sym:{q:"🤒 主な症状を選んでください。",options:healthSym("health_contact")},
+  health_sym_f:{q:"🤒 主な症状を選んでください。",options:healthSym("health_contact_f")},
+  health_contact:{q:"🧑‍🤝‍🧑 直近で発熱者・感染者との濃厚接触はありましたか？",options:[
+    {label:"あり",to:"health_r_stay"},{label:"なし",to:"health_r_care"},{label:"不明",to:"health_r_care"}]},
+  health_contact_f:{q:"🧑‍🤝‍🧑 直近で発熱者・感染者との濃厚接触はありましたか？",options:[
+    {label:"あり",to:"health_r_stay"},{label:"なし",to:"health_r_stay"},{label:"不明",to:"health_r_stay"}]},
+  health_r_ok:{result:true,tone:"ok",text:"✅ 報告完了です。感染対策を継続し、安全に業務にあたってください。"},
+  health_r_stay:{result:true,tone:"danger",text:"🚫 発熱または濃厚接触の可能性があります。出勤は控え、管理者の指示を仰いでください。"},
+  health_r_care:{result:true,tone:"warn",text:"🟡 無理をせず、症状が続く場合は管理者へ連絡してください。"},
+
+  /* ---- ハラスメント ---- */
+  har_type:{q:"🛡 あなたの安全と気持ちが最優先です。あなたは悪くありません。どのハラスメントに近いですか？（迷う場合は「その他」で）",options:[
+    {label:"セクハラ（性的）",to:"har_urgency"},{label:"パワハラ（威圧・過大要求）",to:"har_urgency"},
+    {label:"マタハラ・ケアハラ",to:"har_urgency"},{label:"その他・複数",to:"har_urgency"}]},
+  har_urgency:{q:"今の状況を教えてください。",options:[
+    {label:"今まさに危険",to:"har_r_danger"},{label:"その場から離れた",to:"har_relation"},{label:"継続中・過去のこと",to:"har_relation"}]},
+  har_r_danger:{result:true,tone:"danger",text:"🚨 すぐにその場を離れ、安全を確保してください。身の危険がある場合は110番通報を。落ち着いたら下記の窓口へ相談できます。\n\n📞 {{人権110番}}\n📞 {{警察}}"},
+  har_relation:{q:"🤝 差し支えなければ、相手との関係を教えてください。",options:[
+    {label:"上司・管理者",to:"har_evidence"},{label:"同僚・部下",to:"har_evidence"},{label:"取引先・顧客",to:"har_evidence"},{label:"答えたくない",to:"har_evidence"}]},
+  har_evidence:{q:"🗒 日時・場所・言動・目撃者をメモしておきましょう。証拠（メール・録音・写真・メモ等）はありますか？",options:[
+    {label:"あり",to:"har_support"},{label:"なし",to:"har_support"},{label:"これから残す",to:"har_support"}]},
+  har_support:{q:"どのように進めたいですか？あなたの希望を尊重します。",options:[
+    {label:"社内の窓口に相談",to:"har_r_naibu"},{label:"外部の窓口に相談",to:"har_r_gaibu"},{label:"今は記録だけ",to:"har_r_kiroku"}]},
+  har_r_naibu:{result:true,tone:"info",text:"🤝 社内のハラスメント相談窓口に連絡してください。相談したこと・その内容を理由に不利益な扱いを受けることは法律で禁止されています。"},
+  har_r_gaibu:{result:true,tone:"info",text:"📞 外部の相談窓口です（無料・秘密厳守）。\n・{{総合労働相談}}\n・{{人権110番}}"},
+  har_r_kiroku:{result:true,tone:"ok",text:"🗒 記録しておきましょう。話す準備ができたら、いつでも社内・外部の窓口に相談できます。あなたは悪くありません。"},
+
+  /* ---- カスハラ ---- */
+  cust_screen:{q:"🧑‍💼 まず要求内容を丁寧に聞き取ってください。今の状況はどれに近いですか？",options:[
+    {label:"正当な苦情・要望",to:"cust_r_legit"},{label:"執拗・威圧的で迷惑",to:"cust_type"},{label:"暴力・器物破損",to:"cust_violence"}]},
+  cust_r_legit:{result:true,tone:"ok",text:"🤝 正当な苦情・要望として、担当者が丁寧に対応してください。妥当性のない要求（事実・根拠がない、過失が認められない、他機関が扱うべき等）は、対応できない旨を明確に伝えます。やり取りは記録に残しましょう。"},
+  cust_type:{q:"⚠️ 迷惑行為の類型はどれに近いですか？（録音・撮影やネット拡散をほのめかす場合も注意）",options:[
+    {label:"A 執拗な繰り返し・拘束",to:"cust_response"},{label:"B 暴言・威嚇・脅迫",to:"cust_response"},
+    {label:"C 権威・地位で威圧",to:"cust_response"},{label:"D SNS・ネット中傷",to:"cust_response"}]},
+  cust_violence:{q:"🚨 暴力・器物破損は犯罪です。すぐに距離を取り、身の安全を確保してください。危険なら110番を。\n\n今の対応体制は？",options:[
+    {label:"一人で対応中",to:"cust_measure"},{label:"複数で対応中",to:"cust_measure"}]},
+  cust_response:{q:"📣 一人で抱え込まず、組織的に対応します。今の対応体制は？",options:[
+    {label:"一人で対応中",to:"cust_measure"},{label:"複数で対応中",to:"cust_measure"}]},
+  cust_measure:{q:"この後の対応をどうしますか？",options:[
+    {label:"責任者の判断を仰ぐ",to:"cust_r_sekinin"},{label:"退去要求・警察を検討",to:"cust_r_keisatsu"},{label:"記録して対応終了",to:"cust_r_kiroku"}]},
+  cust_r_sekinin:{result:true,tone:"info",text:"🤝 責任者が該当性を判断し、態様に応じて対応します。やり取りは記録し、必要なら録音を残してください。"},
+  cust_r_keisatsu:{result:true,tone:"danger",text:"📞 {{警察}}。退去要求や被害届の準備として、日時・言動・要求内容を記録に残しましょう。判断が難しい場合は責任者と協議し、必要なら法律相談を活用します。"},
+  cust_r_kiroku:{result:true,tone:"ok",text:"🗒 記録しておきましょう。会社にはあなたを守る義務（安全配慮義務）があります。妥当性のない要求には応じなくて構いません。"},
+
+  /* ---- 虐待 ---- */
+  abuse_target:{q:"🕊 気づいて通報することが、その人を守ります。誰に対する虐待（の疑い）ですか？",options:[
+    {label:"利用者・障害のある方",to:"abuse_type",set:{center:"{{虐待防止センター}}"}},
+    {label:"高齢者",to:"abuse_type",set:{center:"{{虐待防止センター}}"}},
+    {label:"子ども（18歳未満）",to:"abuse_type",set:{center:"{{児童相談所}}"}},
+    {label:"その他・不明",to:"abuse_type",set:{center:"{{虐待防止センター}}"}}]},
+  abuse_type:{q:"どの類型に近いですか？（疑いでも構いません）",options:[
+    {label:"身体的虐待",to:"abuse_urgency"},{label:"性的虐待",to:"abuse_urgency"},{label:"心理的虐待",to:"abuse_urgency"},
+    {label:"放棄・放置（ネグレクト）",to:"abuse_urgency"},{label:"経済的虐待",to:"abuse_urgency"}]},
+  abuse_urgency:{q:"今の緊急度はどれに近いですか？",options:[
+    {label:"生命・身体に危険",to:"abuse_r_danger"},{label:"継続的なリスク",to:"abuse_report"},{label:"疑いの段階",to:"abuse_report"}]},
+  abuse_r_danger:{result:true,tone:"danger",text:"🚑 生命・身体に危険がある場合は直ちに119番／110番。安全を確保してください。\nその上で市町村への通報が必要です。\n📞 {{center}}"},
+  abuse_report:{q:"⚖️ 発見者には市町村への通報義務があります（疑いでも、事実が確認できなくても通報できます）。通報を理由に不利益な扱いを受けることは法律で禁止され、匿名でも通報できます。今の状況は？",options:[
+    {label:"市町村へ通報済み",to:"abuse_r_done"},{label:"上司・虐待防止担当に報告した",to:"abuse_r_joushi"},{label:"まだ（これから）",to:"abuse_r_yet"}]},
+  abuse_r_done:{result:true,tone:"ok",text:"✅ 通報ありがとうございます。事実（日時・状況・目撃内容）を時系列で記録に残してください。"},
+  abuse_r_joushi:{result:true,tone:"info",text:"🤝 上司・虐待防止担当への報告を確認してください。報告しても市町村へ通報されない場合は、うやむやにせず自ら通報します。\n・通報先：{{center}}"},
+  abuse_r_yet:{result:true,tone:"warn",text:"📞 疑いの段階でも通報できます。施設内で抱え込まず、下記へ通報してください。\n・通報先：{{center}}"},
+
+  /* ---- 身体拘束 ---- */
+  rs_urgency:{q:"🔒 身体拘束は原則として禁止されています。やむを得ず行う前に、3要件を確認します。\n\n【①切迫性】本人または他の利用者等の生命・身体・権利が危険にさらされる可能性が著しく高いですか？",options:[
+    {label:"はい",to:"rs_nonalt"},{label:"いいえ",to:"rs_r_no1"}]},
+  rs_r_no1:{result:true,tone:"danger",text:"🛑 切迫性が認められないため、身体拘束は行えません。支援の工夫で対応し、必要なら外部の専門家に相談してください。"},
+  rs_nonalt:{q:"【②非代替性】拘束以外の代替方法をすべて検討し、他に方法がない状態ですか？（複数の職員で確認）",options:[
+    {label:"他に方法がない",to:"rs_temp"},{label:"代替がある/検討中",to:"rs_r_no2"}]},
+  rs_r_no2:{result:true,tone:"danger",text:"🛑 非代替性を満たしません。まずは拘束によらない代替方法を検討・実施してください。"},
+  rs_temp:{q:"【③一時性】必要最小限の、最も短い時間に限定できますか？",options:[
+    {label:"はい",to:"rs_proc"},{label:"いいえ",to:"rs_r_no3"}]},
+  rs_r_no3:{result:true,tone:"danger",text:"🛑 一時性を満たしません。行動制限の常態化は身体的虐待に該当します。解消に向けて支援を見直してください。"},
+  rs_proc:{q:"✅ 3要件（切迫性・非代替性・一時性）を確認しました。次に手続きです。\n\n【手続き①】管理者・サビ管・虐待防止担当等が出席する会議で組織的に決定し、個別支援計画に態様・時間・理由を記載しましたか？",options:[
+    {label:"記載済み",to:"rs_explain",set:{proc:"ok"}},{label:"これから",to:"rs_explain",set:{proc:"ng"}}]},
+  rs_explain:{q:"【手続き②】本人・家族に十分に説明し、了解を得ましたか？",options:[
+    {label:"説明・了解済み",to:"rs_record",set:{expl:"ok"}},{label:"これから",to:"rs_record",set:{expl:"ng"}}]},
+  rs_record:{q:"【手続き③】市町村の窓口へ相談・報告し、記録（態様／時間／心身の状況／緊急やむを得ない理由）を残しますか？",options:[
+    {label:"相談・記録する",to:"rs_result",set:{record:"yes"}},{label:"記録のみ",to:"rs_result",set:{record:"no"}}]},
+  rs_result:{result:true,build:"restraint"},
+
+  /* ---- 苦情解決 ---- */
+  comp_reporter:{q:"💬 苦情・ご意見をお受けします。まず、どなたからの申し出ですか？",options:[
+    {label:"利用者ご本人",to:"comp_category"},{label:"家族・後見人",to:"comp_category"},{label:"職員",to:"comp_category"},{label:"その他",to:"comp_category"}]},
+  comp_category:{q:"内容はどれに近いですか？",options:[
+    {label:"支援・サービス内容",to:"comp_severity"},{label:"職員の対応・態度",to:"comp_severity"},{label:"金銭・請求",to:"comp_severity"},
+    {label:"設備・環境",to:"comp_severity"},{label:"その他",to:"comp_severity"}]},
+  comp_severity:{q:"対応の緊急度はどれに近いですか？",options:[
+    {label:"虐待・人権侵害のおそれ",to:"comp_r_abuse"},{label:"早急な対応が必要",to:"comp_r_urgent"},{label:"通常のご意見・要望",to:"comp_r_normal"}]},
+  comp_r_abuse:{result:true,tone:"danger",text:"⚠️ 虐待・人権侵害のおそれがある場合は、苦情対応とは別に市町村への通報義務があります。メニューの「虐待」を確認し、{{虐待防止センター}} へ通報してください。\n\n苦情としても受け付け、記録します。"},
+  comp_r_urgent:{result:true,tone:"warn",text:"⏱ 早急な対応が必要な案件です。まず責任者へ速やかに報告してください。\n\n"+complaintFlow()},
+  comp_r_normal:{result:true,tone:"info",text:complaintFlow()}
+};
+
+/* 繰り返し使う選択肢 */
+function injuryStates(){return [
+  {label:"小出血",to:"injury_i_ko"},{label:"打撲",to:"injury_i_daboku"},{label:"体調不良",to:"injury_i_taicho"},
+  {label:"やけど",to:"injury_i_yakedo"},{label:"骨折の疑い",to:"injury_i_kossetsu"},{label:"嘔吐・下痢",to:"injury_i_oto"},{label:"頭を打った",to:"injury_i_atama"}];}
+function injuryObs(){return [
+  {label:"改善",to:"injury_r_kaizen"},{label:"変化なし",to:"injury_r_henka"},{label:"悪化",to:"injury_r_akka"}];}
+function healthSym(to){return [
+  {label:"のど・咳",to},{label:"倦怠感・発熱",to},{label:"味覚/嗅覚異常",to},{label:"消化器症状",to},{label:"その他",to}];}
+function complaintFlow(){return "🤝 受け付けました。解決の流れは次のとおりです。\n① "+CONTACTS.苦情受付担当+" が内容を記録\n② "+CONTACTS.苦情解決責任者+" へ報告し、話し合い\n③ 必要に応じて "+CONTACTS.第三者委員+" の助言\n④ 結果を申出者へ報告し、支援の改善につなげる\n\n事業所での解決が難しい場合は、"+CONTACTS.運営適正化委員会+" も利用できます。";}
+
+/* result ビルダー（動的） */
+const BUILDERS = {
+  restraint(ctx){
+    const pending=[];
+    if(ctx.proc==="ng") pending.push("組織決定・個別支援計画への記載");
+    if(ctx.expl==="ng") pending.push("本人・家族への説明・了解");
+    let text="📝 記録項目：態様／時間／その際の心身の状況／緊急やむを得ない理由。\n🔓 拘束は最短で解除し、解消に向けた見直し（要件の再確認）を継続してください。";
+    if(ctx.record==="yes") text+="\n📞 相談先："+CONTACTS.虐待防止センター;
+    if(pending.length) text="⚠️ 未了の手続きがあります："+pending.join("、")+"。実施前に必ず完了してください。\n\n"+text;
+    return {text, tone: pending.length?"warn":"ok"};
+  }
+};
+
+/* =========================================================
+   エンジン
+========================================================= */
+let stack=[];       // [{id, ctx}]
+let answers=[];     // [{q,a}]
+const view=document.getElementById("view");
+const homeBtn=document.getElementById("homeBtn");
+
+function tmpl(t){
+  if(!t) return t;
+  return t.replace(/\{\{(.+?)\}\}/g,(m,k)=>{
+    if(currentCtx()[k]!=null) return tmpl(currentCtx()[k]); // ctx値もテンプレート可
+    if(CONTACTS[k]!=null) return CONTACTS[k];
+    return "";
+  });
+}
+function currentCtx(){ return stack.length? stack[stack.length-1].ctx : {}; }
+
+function showMenu(){
+  stack=[]; answers=[];
+  homeBtn.style.display="none";
+  let html='<div class="grid">';
+  MENU.forEach(function(m){
+    html+='<button class="tile" onclick="startFlow(\''+m.to+'\')">'
+      +'<span class="ico">'+m.icon+'</span>'
+      +'<span class="t">'+m.title+'</span>'
+      +'<span class="d">'+m.desc+'</span></button>';
+  });
+  html+='</div>';
+  view.innerHTML=html;
+  window.scrollTo(0,0);
+}
+
+function startFlow(id){
+  stack=[{id, ctx:{}}]; answers=[];
+  homeBtn.style.display="inline-block";
+  renderNode(id);
+}
+
+function choose(idx){
+  const node=NODES[stack[stack.length-1].id];
+  const opt=node.options[idx];
+  const ctx=Object.assign({}, currentCtx(), opt.set||{});
+  answers.push({q:shorten(node.q), a:opt.label});
+  stack.push({id:opt.to, ctx});
+  renderNode(opt.to);
+}
+
+function back(){
+  if(stack.length<=1){ showMenu(); return; }
+  stack.pop(); answers.pop();
+  renderNode(stack[stack.length-1].id);
+}
+
+function shorten(q){ return (q.split("\n").pop()||q).replace(/^[【\s]*/,"").slice(0,24); }
+
+function renderNode(id){
+  let node=NODES[id];
+  if(node.build){ const r=BUILDERS[node.build](currentCtx()); node={result:true,text:r.text,tone:r.tone}; }
+  if(node.result){ renderResult(node); } else { renderQuestion(node); }
+  window.scrollTo(0,0);
+}
+
+function renderQuestion(node){
+  let html='<div class="card">';
+  html+='<div class="qtext">'+esc(tmpl(node.q))+'</div>';
+  html+='<div class="options">';
+  node.options.forEach(function(o,i){
+    html+='<button class="opt" onclick="choose('+i+')">'+esc(o.label)+'</button>';
+  });
+  html+='</div></div>';
+  html+=navBar();
+  view.innerHTML=html;
+}
+
+function renderResult(node){
+  let html='';
+  if(answers.length){
+    html+='<ul class="answers">';
+    answers.forEach(function(a){ html+='<li><b>'+esc(a.q)+'</b>：'+esc(a.a)+'</li>'; });
+    html+='</ul>';
+  }
+  html+='<div class="result '+(node.tone||"info")+'">'+esc(tmpl(node.text))+'</div>';
+  html+=navBar(true);
+  view.innerHTML=html;
+}
+
+function navBar(isResult){
+  let html='<div class="nav">';
+  html+='<button class="btn" onclick="back()">← ひとつ戻る</button>';
+  html+='<button class="btn'+(isResult?" primary":"")+'" onclick="showMenu()">最初に戻る</button>';
+  html+='</div>';
+  return html;
+}
+
+function esc(s){ return String(s).replace(/[&<>]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;"}[c];}); }
+
+showMenu();
+</script>
+</body>
+</html>
