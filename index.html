@@ -195,6 +195,18 @@ let unlocked = (function(){ try{ return sessionStorage.getItem("rw_unlocked")===
 let pendingFlow = null;
 
 /* =========================================================
+   スプレッドシート記録（任意）
+   ボット（緊急対応マニュアルボット.gs）のウェブアプリ /exec URL を LOG_ENDPOINT に設定すると、
+   結果表示時に「日時・カテゴリ・判定・たどった内容・対応文」を匿名で記録します（本人情報は含みません）。
+   記録は同じスプレッドシートの「Web閲覧記録」タブに追記されます。
+   ・LOG_ENDPOINT が空欄なら記録しません。
+   ・LOG_GROUPS で記録するグループを指定。福祉系を記録したくない場合は "権利・福祉" を外してください。
+========================================================= */
+const LOG_ENDPOINT = "";                          // ← ボットのウェブアプリ /exec URL
+const LOG_TOKEN    = "";                          // ← ボット側 LOG_TOKEN と一致させる（任意）
+const LOG_GROUPS   = ["緊急・災害", "権利・福祉"];  // 記録対象グループ
+
+/* =========================================================
    フロー定義（ボットの分岐・文言に準拠）
    question：{q, options:[{label,to,set}]}   result：{result:true, text, tone}
    {{key}} は CTX または CONTACTS で置換
@@ -547,6 +559,25 @@ function renderResult(node){
   html+='<div class="actions"><button class="btn" onclick="startFlow(menuIndex())">もう一度</button>'
     +'<button class="btn primary" onclick="showMenu()">メニューへ</button></div>';
   view.innerHTML=html;
+  logResult(node);
+}
+
+/* スプレッドシートへ匿名記録（fire-and-forget。失敗しても手引きは止めない） */
+let _lastLog="";
+function logResult(node){
+  if(!LOG_ENDPOINT || !cat) return;
+  if(LOG_GROUPS.indexOf(cat.group)<0) return;
+  const summary=answers.map(function(a){ return a.q+"→"+a.a; }).join(" / ");
+  const sig=cat.title+"|"+summary;
+  if(sig===_lastLog) return;   // 直近と同一なら二重記録しない
+  _lastLog=sig;
+  const payload={ token:LOG_TOKEN, source:"web", category:cat.title,
+                  tone:node.tone||"info", summary:summary, result:tmpl(node.text) };
+  try{
+    fetch(LOG_ENDPOINT,{ method:"POST", mode:"no-cors",
+      headers:{ "Content-Type":"text/plain;charset=utf-8" },
+      body:JSON.stringify(payload) }).catch(function(){});
+  }catch(e){}
 }
 
 function menuIndex(){ return MENU.indexOf(cat); }
